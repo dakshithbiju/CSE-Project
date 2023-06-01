@@ -1,0 +1,140 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Structure to hold menu item information
+typedef struct {
+    char food_name[50];
+    float food_price;
+} Menu_Item;
+
+// Structure to hold cart item information
+typedef struct {
+    Menu_Item item;
+    int quantity;
+} Cart_Item;
+
+// Function to display the menu of items
+void display_Menu(const Menu_Item menu[], int count) {
+    printf("Food Menu:\n");
+    for (int i = 0; i < count; i++) {
+        printf("%d. %s\t₹%.2f\n", i + 1, menu[i].food_name, menu[i].food_price);
+    }
+}
+
+// Function to add an item to the cart
+void add_To_Cart(Cart_Item cart[], Menu_Item item, int quantity, int* cart_Item_Count){
+    cart[*cart_Item_Count].item = item;
+    cart[*cart_Item_Count].quantity = quantity;
+    (*cart_Item_Count)++;
+}
+
+// Function to display the items in the cart
+void display_Cart(const Cart_Item cart[], int cart_Item_Count) {
+    printf("Cart:\n");
+    for (int i = 0; i < cart_Item_Count; i++) {
+        printf("%d. %s\t₹%.2f\tQuantity: %d\n", i + 1, cart[i].item.food_name, cart[i].item.food_price, cart[i].quantity);
+    }
+}
+
+// Function to calculate the total bill
+float calculate_Bill(const Cart_Item cart[], int cart_Item_Count) {
+    float total = 0;
+    for (int i = 0; i < cart_Item_Count; i++) {
+        total += cart[i].item.food_price * cart[i].quantity;
+    }
+    return total;
+}
+
+// Function to display order confirmation details
+void display_Order_Confirmation(const Cart_Item cart[], int cart_Item_Count) {
+    printf("Order Confirmation:\n");
+    printf("Items:\n");
+    for (int i = 0; i < cart_Item_Count; i++) {
+        printf("%d. %s\t₹%.2f\tQuantity: %d\n", i + 1, cart[i].item.food_name, cart[i].item.food_price, cart[i].quantity);
+    }
+    printf("Total Bill: ₹%.2f\n", calculate_Bill(cart, cart_Item_Count));
+    printf("Thank you for your order!\n");
+}
+
+int main() {
+    Menu_Item menu[20];
+    int menu_Item_Count = 0;
+
+    // Create some sample menu items
+    Menu_Item item1 = { "Item 1", 120.00 };
+    Menu_Item item2 = { "Item 2", 99.50 };
+    Menu_Item item3 = { "Item 3", 75.25 };
+    menu[menu_Item_Count++] = item1;
+    menu[menu_Item_Count++] = item2;
+    menu[menu_Item_Count++] = item3;
+
+    Cart_Item cart[20];
+    int cart_Item_Count = 0;
+
+    int choice;
+    int quantity;
+
+    display_Menu(menu, menu_Item_Count);
+
+    do {
+        printf("Enter the index of the item to add to cart (0 to checkout): ");
+        scanf("%d", &choice);
+        getchar();  // Clear the newline character from the input buffer
+
+        if (choice >= 1 && choice <= menu_Item_Count) {
+            printf("Enter the quantity: ");
+            scanf("%d", &quantity);
+            getchar();  // Clear the newline character from the input buffer
+
+            add_To_Cart(cart, menu[choice - 1], quantity, &cart_Item_Count);
+            printf("Item added to cart!\n");
+        } else if (choice != 0) {
+            printf("Invalid index!\n");
+        }
+    } while (choice != 0);
+
+    if (cart_Item_Count == 0) {
+        printf("Cart is empty. Thank you!\n");
+    } else {
+        printf("Cart Items:\n");
+        display_Cart(cart, cart_Item_Count);
+
+        int edit_Choice;
+        do {
+            printf("\n1. Edit Cart\n");
+            printf("2. Proceed to Buy\n");
+            printf("Enter your choice: ");
+            scanf("%d", &edit_Choice);
+            getchar();  // Clear the newline character from the input buffer
+
+            if (edit_Choice == 1) {
+                int item_Index;
+                printf("Enter the index of the item to edit: ");
+                scanf("%d", &item_Index);
+                getchar();  // Clear the newline character from the input buffer
+
+                if (item_Index >= 1 && item_Index <= cart_Item_Count) {
+                    printf("Enter the new quantity: ");
+                    scanf("%d", &quantity);
+                    getchar();  // Clear the newline character from the input buffer
+
+                    cart[item_Index - 1].quantity = quantity;
+                    printf("Cart item updated!\n");
+                } else {
+                    printf("Invalid index!\n");
+                }
+            } else if (edit_Choice != 2) {
+                printf("Invalid choice!\n");
+            }
+        } while (edit_Choice != 1 && edit_Choice != 2);
+
+        if (edit_Choice == 2) {
+            printf("\nOrder Summary:\n");
+            display_Cart(cart, cart_Item_Count);
+            display_Order_Confirmation(cart, cart_Item_Count);
+        }
+    }
+
+    return 0;
+}
