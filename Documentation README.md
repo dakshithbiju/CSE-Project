@@ -1,47 +1,27 @@
-The given program is a simple console-based ordering system for a food menu. It allows users to view the menu, add items to the cart, edit the cart, and proceed to buy the selected items. Here's a documentation of the program:
+The provided code is a simple console-based program for managing a food ordering system. It allows users to select items from a menu, add them to a cart, edit the cart, and finally, proceed to order confirmatin.
 
-Header Files:
+Documentation for the code:
 
-<stdio.h>: Standard input/output functions
-<stdlib.h>: Standard library functions
-<string.h>: String manipulation functions
-Structures:
+Data Structures:
 
-Menu_Item: Structure to hold information about a menu item, including the food name and price.
-Cart_Item: Structure to hold information about an item in the cart, including the menu item itself and the quantity.
-Function: display_Menu
+Menu_Item: A structure representing a menu item. It contains two fields:
+food_name: A character array to store the name of the food item.
+food_price: A float variable to store the price of the food item.
+Cart_Item: A structure representing an item in the cart. It contains two fields:
+item: An instance of Menu_Item structure representing the food item.
+quantity: An integer to store the quantity of the food item in the cart.
+Function:
 
-Parameters: const Menu_Item menu[] (array of menu items), int count (number of items in the menu)
-Description: Displays the menu items with their index, name, and price.
-Function: add_To_Cart
+display_Menu( Menu_Item menu[], int count): This function displays the available menu items. It takes an array of Menu_Item structures (menu) and the number of items in the menu (count) as arguments.
+add_To_Cart(Cart_Item cart[], Menu_Item item, int quantity, int* cart_Item_Count): This function adds an item to the cart. It takes an array of Cart_Item structures (cart), a Menu_Item structure (item), the quantity of the item (quantity), and a pointer to the cart item count (cart_Item_Count) as arguments.
+display_Cart(const Cart_Item cart[], int cart_Item_Count): This function displays the items in the cart. It takes an array of Cart_Item structures (cart) and the cart item count (cart_Item_Count) as arguments.
+calculate_Bill(const Cart_Item cart[], int cart_Item_Count): This function calculates the total bill based on the items in the cart. It takes an array of Cart_Item structures (cart) and the cart item count (cart_Item_Count) as arguments. It returns the total bill as a float value.
+display_Order_Confirmation(const Cart_Item cart[], int cart_Item_Count): This function displays the order confirmation details. It takes an array of Cart_Item structures (cart) and the cart item count (cart_Item_Count) as arguments.
+Main Function:
 
-Parameters: Cart_Item cart[] (array of cart items), Menu_Item item (menu item to add), int quantity (quantity to add), int* cart_Item_Count (pointer to cart item count)
-Description: Adds an item to the cart with the specified quantity.
-Function: display_Cart
-
-Parameters: const Cart_Item cart[] (array of cart items), int cart_Item_Count (number of items in the cart)
-Description: Displays the items in the cart with their index, name, price, and quantity.
-Function: calculate_Bill
-
-Parameters: const Cart_Item cart[] (array of cart items), int cart_Item_Count (number of items in the cart)
-Description: Calculates and returns the total bill amount based on the items and their quantities in the cart.
-Function: display_Order_Confirmation
-
-Parameters: const Cart_Item cart[] (array of cart items), int cart_Item_Count (number of items in the cart)
-Description: Displays the order confirmation details, including the items in the cart, total bill amount, and a thank you message.
-main Function:
-
-Initializes an array of Menu_Item called menu and an integer menu_Item_Count to keep track of the number of items in the menu.
-Creates sample menu items and adds them to the menu array.
-Initializes an array of Cart_Item called cart and an integer cart_Item_Count to keep track of the number of items in the cart.
-Displays the menu using the display_Menu function.
-Prompts the user to select menu items to add to the cart until the user enters 0 to checkout.
-If the cart is empty, displays a message and exits the program.
-If the cart is not empty, displays the cart items and prompts the user to edit the cart or proceed to buy.
-If the user chooses to edit the cart, allows the user to update the quantity of a specific item.
-If the user chooses to proceed to buy, displays the order summary and confirmation details using the display_Cart and display_Order_Confirmation functions.
-This program provides a basic framework for an ordering system. You can extend it further by adding more functionality, such as removing items from the cart or implementing payment options.
-
-
-
-
+The main() function is the entry point of the program. It contains the core logic for the food ordering system.
+It initializes the menu items, creates an empty cart, and displays the menu to the user.
+The user is prompted to enter the index of the item they want to add to the cart. If a valid choice is made, the user is prompted for the quantity, and the item is added to the cart.
+After the user finishes adding items to the cart, they have the option to edit the cart or proceed to buy.
+If the user chooses to edit the cart, they can select an item from the cart and update its quantity.
+If the user chooses to proceed to buy, an order summary and order confirmation details are displayed.
